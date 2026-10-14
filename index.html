@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Chittenden | Games Programmer & Creative Technologist</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deepDark: '#050a0f',
+                        cardDark: '#0f1722',
+                        neonCyan: '#00f0ff',
+                        neonGreen: '#39ff14',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        body {
+            background-color: #050a0f;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Subtle grid background for tech aesthetic */
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-attachment: fixed;
+        }
+
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+        }
+
+        .box-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+        
+        .box-glow-cyan:hover {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+        }
+
+        /* SPA Routing Styles */
+        .spa-section {
+            display: none;
+            opacity: 0;
+        }
+
+        .spa-section.active {
+            display: block;
+            animation: fadeInSlideUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Nav Link Active State */
+        .nav-btn {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #00f0ff;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+        }
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+        .nav-btn.active {
+            color: #00f0ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <nav class="fixed top-0 left-0 w-full z-50 bg-deepDark/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="ph-fill ph-code text-neonCyan text-2xl"></i>
+                <span class="font-bold text-xl tracking-widest text-white text-glow-cyan uppercase">BC_Dev</span>
+            </div>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex gap-8 font-mono text-sm tracking-wide">
+                <button class="nav-btn active text-neonCyan font-semibold hover:text-white" data-target="home">01.HOME</button>
+                <button class="nav-btn text-gray-400 font-semibold hover:text-white" data-target="portfolio">02.PORTFOLIO</button>
+                <button class="nav-btn text-gray-400 font-semibold hover:text-white" data-target="experience">03.EXPERIENCE</button>
+                <button class="nav-btn text-gray-400 font-semibold hover:text-white" data-target="about">04.ABOUT</button>
+            </div>
+
+            <!-- Mobile Nav Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-neonCyan text-2xl">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cardDark border-b border-white/10 px-6 py-4 flex flex-col gap-4 font-mono text-sm">
+            <button class="nav-btn active text-left text-neonCyan" data-target="home">01.HOME</button>
+            <button class="nav-btn text-left text-gray-400 hover:text-white" data-target="portfolio">02.PORTFOLIO</button>
+            <button class="nav-btn text-left text-gray-400 hover:text-white" data-target="experience">03.EXPERIENCE</button>
+            <button class="nav-btn text-left text-gray-400 hover:text-white" data-target="about">04.ABOUT</button>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-28 pb-20 px-6 max-w-6xl mx-auto w-full">
+        
+        <!-- ================= HOME SECTION ================= -->
+        <section id="home" class="spa-section active min-h-[70vh] flex items-center">
+            <div class="max-w-3xl">
+                <p class="font-mono text-neonCyan mb-4 tracking-wide text-sm md:text-base">INITIALIZING SYSTEM // PROFILE LOADED</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+                    Ben Chittenden
+                </h1>
+                <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-6">
+                    Games Programmer & <span class="text-neonCyan text-glow-cyan">Creative Technologist</span>
+                </h2>
+                <p class="text-lg text-gray-400 mb-10 max-w-2xl leading-relaxed">
+                    10+ years of deep expertise in Unreal Engine, pushing the boundaries of interactive media. Specializing in VR/AR experiences, Virtual Production, and advanced technical art.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <button class="nav-link-trigger px-8 py-4 bg-transparent border border-neonCyan text-neonCyan font-mono font-bold tracking-widest hover:bg-neonCyan hover:text-deepDark box-glow-cyan transition-all duration-300 rounded" data-target="portfolio">
+                        VIEW_PROJECTS
+                    </button>
+                    <button class="px-8 py-4 bg-cardDark border border-white/10 text-white font-mono font-bold tracking-widest hover:border-white/40 transition-all duration-300 rounded flex items-center gap-2">
+                        <i class="ph-fill ph-envelope"></i> CONTACT
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PORTFOLIO SECTION ================= -->
+        <section id="portfolio" class="spa-section">
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                    <span class="text-neonCyan font-mono text-xl">02.</span> Featured Work
+                </h2>
+                <div class="h-1 w-24 bg-neonCyan box-glow-cyan mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project Card 1 -->
+                <div class="bg-cardDark border border-white/5 rounded-xl overflow-hidden hover:border-neonCyan/50 box-glow-cyan transition-all duration-300 group">
+                    <div class="aspect-video relative overflow-hidden bg-gray-900">
+                        <img src="https://placehold.co/800x450/111827/00f0ff?text=Niagara+Weapon+Trails" alt="VR Dynamic Niagara Weapon Trails" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-deepDark/80 backdrop-blur px-3 py-1 rounded text-xs font-mono text-neonCyan border border-neonCyan/30">VR / VFX</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-neonCyan transition-colors">VR Dynamic Niagara Weapon Trails</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Developed complex weapon effects using Niagara ribbon renderers in Unreal Engine. The plasma trails dynamically adjust width, color, and intensity based on the player's physical blade swing velocity in VR.
+                        </p>
+                        <div class="flex gap-2 flex-wrap text-xs font-mono text-neonCyan/70">
+                            <span class="bg-white/5 px-2 py-1 rounded">Unreal Engine</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">Niagara</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">Math Nodes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="bg-cardDark border border-white/5 rounded-xl overflow-hidden hover:border-neonGreen/50 hover:shadow-[0_0_20px_rgba(57,255,20,0.2)] transition-all duration-300 group">
+                    <div class="aspect-video relative overflow-hidden bg-gray-900">
+                        <img src="https://placehold.co/800x450/111827/39ff14?text=Character+Transformation" alt="Character Transformation VFX" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-deepDark/80 backdrop-blur px-3 py-1 rounded text-xs font-mono text-neonGreen border border-neonGreen/30">Tech Art</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-neonGreen transition-colors">Character Transformation VFX Prototype</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            High-fidelity visual effect prototype showcasing real-time skeletal mesh swapping. Implemented triplanar materials and spherical particle wipes originating from a dynamic world position.
+                        </p>
+                        <div class="flex gap-2 flex-wrap text-xs font-mono text-neonGreen/70">
+                            <span class="bg-white/5 px-2 py-1 rounded">Blueprints</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">Material Shaders</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">Prototyping</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="bg-cardDark border border-white/5 rounded-xl overflow-hidden hover:border-neonCyan/50 box-glow-cyan transition-all duration-300 group">
+                    <div class="aspect-video relative overflow-hidden bg-gray-900">
+                        <img src="https://placehold.co/800x450/111827/00f0ff?text=VR+Radial+UI" alt="VR UI & Radial Menus" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-deepDark/80 backdrop-blur px-3 py-1 rounded text-xs font-mono text-neonCyan border border-neonCyan/30">UI / UX</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-neonCyan transition-colors">VR UI & Radial Menus (Meta ISDK)</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Engineered highly ergonomic, waist-anchored radial menus and curved interactive dashboards. Utilized Meta's Interaction SDK to ensure tactile, satisfying feedback for the user in 3D space.
+                        </p>
+                        <div class="flex gap-2 flex-wrap text-xs font-mono text-neonCyan/70">
+                            <span class="bg-white/5 px-2 py-1 rounded">Meta ISDK</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">3D Math</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">UMG</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="bg-cardDark border border-white/5 rounded-xl overflow-hidden hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(236,72,153,0.2)] transition-all duration-300 group">
+                    <div class="aspect-video relative overflow-hidden bg-gray-900">
+                        <img src="https://placehold.co/800x450/111827/ec4899?text=Bot+Brawlers" alt="Bot Brawlers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-70 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-deepDark/80 backdrop-blur px-3 py-1 rounded text-xs font-mono text-pink-500 border border-pink-500/30">Gameplay</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors">Bot Brawlers</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            A fast-paced, colorful local multiplayer arena brawler inspired by BattleBots. Designed core gameplay loops, hit detection systems, and dynamic destruction physics optimized for high framerates.
+                        </p>
+                        <div class="flex gap-2 flex-wrap text-xs font-mono text-pink-400/70">
+                            <span class="bg-white/5 px-2 py-1 rounded">C++</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">Multiplayer</span>
+                            <span class="bg-white/5 px-2 py-1 rounded">Physics</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= EXPERIENCE SECTION ================= -->
+        <section id="experience" class="spa-section">
+            <div class="max-w-4xl">
+                <div class="mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                        <span class="text-neonCyan font-mono text-xl">03.</span> Professional Experience
+                    </h2>
+                    <div class="h-1 w-24 bg-neonCyan box-glow-cyan mt-4 rounded-full"></div>
+                </div>
+
+                <div class="relative border-l border-white/10 ml-4 md:ml-6 pb-4">
+                    
+                    <!-- Timeline Item -->
+                    <div class="relative pl-8 md:pl-12 mb-12">
+                        <!-- Neon Node -->
+                        <div class="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-deepDark border-2 border-neonCyan box-glow-cyan"></div>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-2">
+                            <h3 class="text-2xl font-bold text-white">Technical Lead</h3>
+                            <span class="font-mono text-neonCyan text-sm">Present</span>
+                        </div>
+                        
+                        <h4 class="text-lg text-gray-300 font-semibold mb-4">
+                            Creative Innovation Hub @ <span class="text-white">Canterbury Christ Church University</span>
+                        </h4>
+                        
+                        <p class="text-gray-400 leading-relaxed mb-6">
+                            Leading technical R&D and strategy for advanced interactive media projects. Bridging the gap between academic innovation and industry-standard practices, focusing on Virtual Production, interactive installations, and next-generation real-time applications.
+                        </p>
+
+                        <div class="bg-cardDark border border-white/5 rounded-lg p-5">
+                            <h5 class="text-sm font-mono text-gray-400 mb-4 tracking-wider">CORE TECHNICAL ARSENAL</h5>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="flex items-center gap-2">
+                                    <i class="ph-fill ph-check-circle text-neonCyan"></i>
+                                    <span class="text-sm text-gray-300">Blueprints (UE)</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="ph-fill ph-check-circle text-neonCyan"></i>
+                                    <span class="text-sm text-gray-300">Material Shaders</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="ph-fill ph-check-circle text-neonCyan"></i>
+                                    <span class="text-sm text-gray-300">Forward Shading</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="ph-fill ph-check-circle text-neonCyan"></i>
+                                    <span class="text-sm text-gray-300">Niagara VFX</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT SECTION ================= -->
+        <section id="about" class="spa-section">
+            <div class="max-w-4xl">
+                <div class="mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                        <span class="text-neonCyan font-mono text-xl">04.</span> About Me
+                    </h2>
+                    <div class="h-1 w-24 bg-neonCyan box-glow-cyan mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-10 items-start">
+                    <div class="md:col-span-3 space-y-6 text-gray-400 leading-relaxed text-lg">
+                        <p>
+                            Hello! I'm <span class="text-white font-semibold">Ben Chittenden</span>, a developer who thrives at the intersection of raw code and visual artistry. I have a profound passion for pushing technical boundaries in interactive media, specifically within real-time engines.
+                        </p>
+                        <p>
+                            With over a decade of experience focused deeply on Unreal Engine, I specialize in solving the complex problems that arise when bridging high-end visual goals with strict performance budgets—whether that's optimizing forward shading for a 90Hz VR headset or engineering dynamic, logic-driven material shaders.
+                        </p>
+                        <p>
+                            My background encompasses traditional game programming, intricate Tech Art workflows, and the rapidly evolving field of Virtual Production. I believe the best technical architecture not only functions flawlessly but empowers creators to build more immersive, tangible experiences.
+                        </p>
+                        
+                        <div class="pt-6 mt-6 border-t border-white/10 flex gap-6">
+                            <a href="#" class="text-gray-400 hover:text-neonCyan transition-colors text-3xl"><i class="ph-fill ph-github-logo"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-neonCyan transition-colors text-3xl"><i class="ph-fill ph-linkedin-logo"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-neonCyan transition-colors text-3xl"><i class="ph-fill ph-twitter-logo"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 relative group">
+                        <!-- Decorative Frame -->
+                        <div class="absolute inset-0 border-2 border-neonCyan rounded-xl translate-x-4 translate-y-4 -z-10 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        <!-- Profile Image -->
+                        <div class="relative bg-cardDark rounded-xl overflow-hidden aspect-[4/5] z-10 border border-white/10">
+                             <!-- Using a stylized placeholder matching a tech aesthetic -->
+                             <img src="https://placehold.co/600x750/0f1722/00f0ff?text=Ben+Chittenden\nProfile+Image" alt="Ben Chittenden" class="w-full h-full object-cover opacity-80 mix-blend-lighten group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-500">
+                             <div class="absolute inset-0 bg-neonCyan/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup strict variable references to avoid null errors
+            const navButtons = document.querySelectorAll('.nav-btn, .nav-link-trigger');
+            const sections = document.querySelectorAll('.spa-section');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Routing function
+            const navigateToSection = (targetId) => {
+                const targetSection = document.getElementById(targetId);
+                
+                // If section doesn't exist, exit safely
+                if (!targetSection) return;
+
+                // 1. Hide all sections safely
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // 2. Remove active state from all nav buttons
+                navButtons.forEach(btn => {
+                    btn.classList.remove('active', 'text-neonCyan');
+                    if (btn.classList.contains('nav-btn')) {
+                        btn.classList.add('text-gray-400');
+                    }
+                });
+
+                // 3. Show target section
+                targetSection.classList.add('active');
+
+                // 4. Highlight associated nav links
+                document.querySelectorAll(`[data-target="${targetId}"]`).forEach(btn => {
+                    if (btn.classList.contains('nav-btn')) {
+                        btn.classList.add('active', 'text-neonCyan');
+                        btn.classList.remove('text-gray-400');
+                    }
+                });
+
+                // 5. Hide mobile menu on navigation
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+
+                // Smooth scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // Attach event listeners safely
+            if (navButtons && navButtons.length > 0) {
+                navButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = btn.getAttribute('data-target');
+                        if (targetId) {
+                            navigateToSection(targetId);
+                        }
+                    });
+                });
+            }
+
+            // Mobile menu toggle
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Optional: Ensure the #home section is visible immediately as a fallback, 
+            // though the HTML 'active' class already handles this.
+            const homeSection = document.getElementById('home');
+            if (homeSection && !homeSection.classList.contains('active')) {
+                 navigateToSection('home');
+            }
+        });
+    </script>
+</body>
+</html>
