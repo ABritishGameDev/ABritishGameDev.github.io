@@ -65,6 +65,15 @@
         .pin-obj { background: #00A8FF; } /* Blue Object */
         .pin-bool { background: #900000; } /* Red Boolean */
         .pin-int { background: #1FE5A0; } /* Cyan Int */
+
+        /* Daisy Chain Execution Wire */
+        .exec-wire {
+            width: 4px;
+            height: 40px;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 8px rgba(255,255,255,0.8);
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#D37B24] selection:text-white">
@@ -168,7 +177,6 @@
 
         <!-- GAMES PROJECTS TAB -->
         <section id="tab-projects" class="tab-content hidden space-y-12">
-            <!-- Commment Box Style Header -->
             <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.1)] rounded p-4 mb-8 relative">
                 <div class="absolute -top-3 left-4 bg-[#1A1C1E] px-2 text-gray-400 font-mono text-sm">My Games Group</div>
                 <p class="text-gray-300 pt-2 text-lg">A showcase of systems, maps, and logic built across multiple engines.</p>
@@ -267,7 +275,6 @@
 
         <!-- INTERACTIVE EXPERIENCES TAB -->
         <section id="tab-interactive" class="tab-content hidden space-y-12">
-            <!-- Commment Box Style Header -->
             <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.1)] rounded p-4 mb-8 relative">
                 <div class="absolute -top-3 left-4 bg-[#1A1C1E] px-2 text-gray-400 font-mono text-sm">Interactive Experiences Group</div>
                 <p class="text-gray-300 pt-2 text-lg">A showcase of non-game technical projects, immersive environments, and digital history.</p>
@@ -337,29 +344,77 @@
             </div>
         </section>
 
-        <!-- EXPERIENCE TAB -->
+        <!-- EXPERIENCE TAB (Daisy Chained Layout) -->
         <section id="tab-experience" class="tab-content hidden">
-            <div class="ue-node max-w-4xl mx-auto">
-                <div class="ue-header-macro px-4 py-2 flex items-center">
-                    <span class="ue-pin pin-exec"></span>
-                    <span class="font-bold text-white text-lg">Macro: Career Timeline</span>
-                </div>
-                <div class="p-8 space-y-6">
-                    <div class="border-l-2 border-[#2D3035] pl-6 space-y-8 py-4 relative">
-                        <div class="relative">
-                            <span class="absolute -left-[35px] top-1 w-4 h-4 bg-[#00A8FF] rounded-full border-4 border-[#151719]"></span>
-                            <h3 class="text-xl font-bold text-white">Canterbury Christ Church University</h3>
-                            <p class="text-sm font-mono text-[#00A8FF] mb-2">Higher Education Background</p>
-                            <p class="text-gray-400">Game Design and Programming fundamentals, project leadership, and collaborative development in academic environments.</p>
+            <div class="max-w-3xl mx-auto flex flex-col items-start pt-6">
+                
+                <!-- Node 1: Forensic Science -->
+                <div class="ue-node w-full">
+                    <div class="ue-header-macro px-4 py-2 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="ue-pin pin-exec"></span>
+                            <span class="font-bold text-white text-lg">Event: Early Background</span>
                         </div>
-                        <div class="relative">
-                            <span class="absolute -left-[35px] top-1 w-4 h-4 bg-[#1FE5A0] rounded-full border-4 border-[#151719]"></span>
-                            <h3 class="text-xl font-bold text-white">Independent Development</h3>
-                            <p class="text-sm font-mono text-[#1FE5A0] mb-2">2016 - Present</p>
-                            <p class="text-gray-400">Led system architecture and logic design across numerous solo and team-based titles, specializing in Unreal Engine frameworks, AI routing, VR interaction modules, and immersive interactive experiences.</p>
+                        <span class="ue-pin pin-exec"></span>
+                    </div>
+                    <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-6">
+                        <div class="flex-1 space-y-3">
+                            <h3 class="text-xl font-bold text-white">Forensic Science</h3>
+                            <p class="text-gray-300 leading-relaxed text-sm">
+                                Establishing a strong analytical mindset, structural investigation methodology, and meticulous attention to detail before transitioning into technical programming and systems design.
+                            </p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Wire connecting Node 1 to Node 2 -->
+                <div class="exec-wire"></div>
+
+                <!-- Node 2: MA in Game Design -->
+                <div class="ue-node w-full">
+                    <div class="ue-header-macro px-4 py-2 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="ue-pin pin-exec"></span>
+                            <span class="font-bold text-white text-lg">Event: Higher Education</span>
+                        </div>
+                        <span class="ue-pin pin-exec"></span>
+                    </div>
+                    <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-6">
+                        <div class="flex-1 space-y-3">
+                            <h3 class="text-xl font-bold text-white">MA in Game Design</h3>
+                            <p class="text-sm font-mono text-[#00A8FF]">Canterbury Christ Church University</p>
+                            <p class="text-gray-300 leading-relaxed text-sm">
+                                Advanced study focusing on game architecture, VR/AR interactions, collaborative development pipelines, and advanced engine implementation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wire connecting Node 2 to Node 3 -->
+                <div class="exec-wire"></div>
+
+                <!-- Node 3: Technical Lead -->
+                <div class="ue-node w-full">
+                    <div class="ue-header-func px-4 py-2 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="ue-pin pin-exec"></span>
+                            <span class="font-bold text-white text-lg">Call: Technical Leadership</span>
+                        </div>
+                        <span class="ue-pin pin-exec"></span>
+                    </div>
+                    <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-6">
+                        <div class="flex-1 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-xl font-bold text-white">Technical Lead</h3>
+                            </div>
+                            <p class="text-sm font-mono text-[#1FE5A0]">Canterbury Christ Church University</p>
+                            <p class="text-gray-300 leading-relaxed text-sm">
+                                Managing VR/AR development, virtual production, and interactive systems design. Developed technical pipelines for projects including Arcade Britannia and Bot Brawlers. Built robust architecture utilizing C++, Blueprint scripting, motion capture, and 3D printing hardware integration.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -372,20 +427,21 @@
                 </div>
                 <div class="p-8 space-y-6 text-gray-300 leading-relaxed font-medium">
                     <div class="flex items-center space-x-4 mb-6 bg-[#111] p-4 rounded border border-[#2D3035]">
-                        <div class="w-16 h-16 bg-gray-800 rounded overflow-hidden border border-gray-600 shrink-0">
+                        <!-- Profile Photo -->
+                        <div class="w-16 h-16 shrink-0 rounded-full overflow-hidden border border-gray-600 shadow-[0_0_10px_rgba(0,168,255,0.2)]">
                             <img src="PXL_20250709_092615491.jpg" alt="Ben Chittenden" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h3 class="text-xl text-white font-bold">Ben Chittenden</h3>
-                            <p class="text-sm text-[#00A8FF] font-mono">Game Design & Programming</p>
+                            <p class="text-sm text-[#00A8FF] font-mono">Unreal Engine Gameplay Programmer</p>
                         </div>
                     </div>
                     
                     <p>
-                        I am a dedicated Games Programmer and Technical Designer focused on creating robust, highly interactive experiences. My core strength lies in translating complex game design concepts into efficient, scalable systems within Unreal Engine.
+                        I am an Unreal Engine Gameplay Programmer and Creative Technologist based in Faversham, England, currently serving as a Technical Lead at Canterbury Christ Church University. My core strength lies in translating complex game design concepts into efficient, scalable systems within Unreal Engine.
                     </p>
                     <p>
-                        With extensive experience spanning local multiplayer AI to PCVR interaction design and digital heritage projects, I excel in environments that require both creative problem solving and rigorous technical execution. I am passionate about clean Blueprint architecture, C++ integration, and building intuitive tools that empower the entire development team.
+                        With over a decade of professional experience spanning VR/AR development, virtual production, local multiplayer AI, and digital heritage interactive systems, I excel in environments that require both creative problem solving and rigorous technical execution. I am passionate about clean Blueprint architecture, C++ integration, and building intuitive tools that empower the entire development team.
                     </p>
                 </div>
             </div>
