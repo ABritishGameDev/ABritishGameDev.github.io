@@ -3,348 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ben Chittenden | Game Design & Programming Portfolio</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Ben Chittenden | Game Design Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Unreal Engine Blueprint Graph Background */
+        /* UE5 Graph Background */
         body {
-            background-color: #121212;
+            background-color: #1A1C1E;
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
+                linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 24px 24px;
             color: #E2E8F0;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
         
-        /* Blueprint Node Styling */
+        /* UE5 Node Styling */
         .ue-node {
-            background: #1F242D;
-            border: 2px solid #323A48;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            background: rgba(21, 23, 25, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid #2D3035;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             transition: all 0.2s ease;
         }
         .ue-node:hover {
-            border-color: #22C55E;
-            box-shadow: 0 10px 30px -5px rgba(34, 197, 94, 0.2);
+            border-color: #D37B24; /* UE Orange selection color */
+            box-shadow: 0 0 15px rgba(211, 123, 36, 0.3);
         }
         
-        /* Blueprint Pin */
+        /* UE Node Headers (Red = Event, Blue = Function, Green = Pure) */
+        .ue-header-event {
+            background: linear-gradient(180deg, rgba(144, 20, 20, 0.9) 0%, rgba(90, 10, 10, 0.9) 100%);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom: 1px solid #111;
+        }
+        .ue-header-func {
+            background: linear-gradient(180deg, rgba(40, 80, 150, 0.9) 0%, rgba(20, 40, 90, 0.9) 100%);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom: 1px solid #111;
+        }
+        .ue-header-macro {
+            background: linear-gradient(180deg, rgba(120, 120, 120, 0.9) 0%, rgba(80, 80, 80, 0.9) 100%);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom: 1px solid #111;
+        }
+
+        /* UE Pins */
         .ue-pin {
             width: 12px;
             height: 12px;
-            background: #22C55E;
             border-radius: 50%;
-            border: 2px solid #14181F;
+            border: 2px solid #000;
             display: inline-block;
+            margin-right: 8px;
         }
-        
-        /* Blueprint Header */
-        .ue-header {
-            background: linear-gradient(90deg, #166534 0%, #14532D 100%);
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-        }
+        .pin-exec { background: #FFFFFF; border-radius: 2px; height: 14px; width: 12px; clip-path: polygon(0% 0%, 65% 0%, 100% 50%, 65% 100%, 0% 100%); border: none;}
+        .pin-obj { background: #00A8FF; } /* Blue Object */
+        .pin-bool { background: #900000; } /* Red Boolean */
+        .pin-int { background: #1FE5A0; } /* Cyan Int */
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-green-500 selection:text-black">
+<body class="min-h-screen flex flex-col selection:bg-[#D37B24] selection:text-white">
 
-    <!-- Top Navigation / Unreal Menu Bar -->
-    <header class="sticky top-0 z-50 bg-[#1A1A1A]/90 backdrop-blur-md border-b border-neutral-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-                <span class="font-bold tracking-wider text-white text-lg">BEN CHITTENDEN <span class="text-xs text-neutral-400 font-normal">v5.5.0</span></span>
+    <!-- Top Navigation (Mobile & Desktop) -->
+    <header class="sticky top-0 z-50 bg-[#111111] border-b border-[#2D3035] shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Logo / Title -->
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-code text-[#00A8FF]"></i>
+                    <span class="font-bold tracking-wide text-white text-lg font-mono">BEN CHITTENDEN</span>
+                </div>
+                
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-2">
+                    <button onclick="switchTab('home')" class="nav-btn-desk px-4 py-2 rounded font-medium transition text-[#00A8FF] bg-[#222] border border-[#00A8FF]/50 hover:bg-[#333]" data-target="home">Home</button>
+                    <button onclick="switchTab('projects')" class="nav-btn-desk px-4 py-2 rounded font-medium transition text-gray-300 hover:text-white hover:bg-[#222]" data-target="projects">My Games</button>
+                    <button onclick="switchTab('experience')" class="nav-btn-desk px-4 py-2 rounded font-medium transition text-gray-300 hover:text-white hover:bg-[#222]" data-target="experience">Experience</button>
+                    <button onclick="switchTab('about')" class="nav-btn-desk px-4 py-2 rounded font-medium transition text-gray-300 hover:text-white hover:bg-[#222]" data-target="about">About</button>
+                </nav>
+
+                <!-- Social & Mobile Toggle -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden sm:flex items-center space-x-3 border-r border-[#2D3035] pr-4">
+                        <a href="https://www.linkedin.com/in/ben-chittenden-052513127/" target="_blank" class="text-gray-400 hover:text-[#00A8FF] transition"><i class="fa-brands fa-linkedin-in text-lg"></i></a>
+                        <a href="https://twitter.com/ABritishGameDev" target="_blank" class="text-gray-400 hover:text-[#00A8FF] transition"><i class="fa-brands fa-x-twitter text-lg"></i></a>
+                        <a href="https://www.youtube.com/channel/UCVwJil5ftZr66MN5z5o7P4A" target="_blank" class="text-gray-400 hover:text-[#00A8FF] transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-gray-300 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
-            
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex space-x-1 lg:space-x-2">
-                <button onclick="switchTab('home')" class="nav-btn px-4 py-2 rounded text-sm font-medium transition text-green-400 bg-neutral-800/60 border border-green-500/30" data-target="home">Home</button>
-                <button onclick="switchTab('projects')" class="nav-btn px-4 py-2 rounded text-sm font-medium transition text-neutral-300 hover:text-white hover:bg-neutral-800" data-target="projects">My Games</button>
-                <button onclick="switchTab('experience')" class="nav-btn px-4 py-2 rounded text-sm font-medium transition text-neutral-300 hover:text-white hover:bg-neutral-800" data-target="experience">Experience</button>
-                <button onclick="switchTab('about')" class="nav-btn px-4 py-2 rounded text-sm font-medium transition text-neutral-300 hover:text-white hover:bg-neutral-800" data-target="about">About</button>
-                <button onclick="switchTab('contact')" class="nav-btn px-4 py-2 rounded text-sm font-medium transition text-neutral-300 hover:text-white hover:bg-neutral-800" data-target="contact">Contact</button>
-            </nav>
+        </div>
 
-            <!-- Social Icons -->
-            <div class="flex items-center space-x-4">
-                <a href="https://www.linkedin.com/in/ben-chittenden-052513127/" target="_blank" class="text-neutral-400 hover:text-green-400 transition" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in text-lg"></i></a>
-                <a href="https://twitter.com/ABritishGameDev" target="_blank" class="text-neutral-400 hover:text-green-400 transition" aria-label="Twitter"><i class="fa-brands fa-x-twitter text-lg"></i></a>
-                <a href="https://www.youtube.com/channel/UCVwJil5ftZr66MN5z5o7P4A" target="_blank" class="text-neutral-400 hover:text-green-400 transition" aria-label="YouTube"><i class="fa-brands fa-youtube text-lg"></i></a>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#151719] border-b border-[#2D3035]">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner">
+                <button onclick="switchTab('home')" class="nav-btn-mob block w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#00A8FF] bg-[#222]" data-target="home">Home</button>
+                <button onclick="switchTab('projects')" class="nav-btn-mob block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-[#222]" data-target="projects">My Games</button>
+                <button onclick="switchTab('experience')" class="nav-btn-mob block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-[#222]" data-target="experience">Experience</button>
+                <button onclick="switchTab('about')" class="nav-btn-mob block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-[#222]" data-target="about">About</button>
+                
+                <div class="flex space-x-4 px-3 py-3 mt-2 border-t border-[#2D3035]">
+                    <a href="https://www.linkedin.com/in/ben-chittenden-052513127/" target="_blank" class="text-gray-400 hover:text-[#00A8FF]"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
+                    <a href="https://twitter.com/ABritishGameDev" target="_blank" class="text-gray-400 hover:text-[#00A8FF]"><i class="fa-brands fa-x-twitter text-xl"></i></a>
+                    <a href="https://www.youtube.com/channel/UCVwJil5ftZr66MN5z5o7P4A" target="_blank" class="text-gray-400 hover:text-[#00A8FF]"><i class="fa-brands fa-youtube text-xl"></i></a>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full relative">
 
         <!-- HOME TAB -->
-        <section id="tab-home" class="tab-content space-y-12">
-            <!-- Hero Blueprint Node -->
-            <div class="ue-node overflow-hidden">
-                <div class="ue-header px-6 py-3 flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <span class="ue-pin"></span>
-                        <span class="font-bold text-white tracking-wide uppercase text-sm">Event BeginPlay // Portfolio Entry</span>
+        <section id="tab-home" class="tab-content">
+            <div class="ue-node max-w-4xl mx-auto">
+                <div class="ue-header-event px-4 py-2 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center">
+                        <span class="ue-pin pin-exec"></span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md">Event BeginPlay</span>
                     </div>
-                    <span class="text-xs text-green-200 font-mono">Target: Self</span>
                 </div>
-                <div class="p-8 lg:p-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                
+                <div class="p-8 md:p-12">
                     <div class="space-y-6">
-                        <div class="inline-flex items-center space-x-2 bg-green-500/10 border border-green-500/30 px-3 py-1 rounded-full text-green-400 text-xs font-mono">
-                            <span>●</span> <span>Unreal Engine Specialist & Systems Programmer</span>
+                        <div class="inline-block bg-[#222] border border-[#333] px-3 py-1 rounded text-gray-300 font-mono text-sm shadow-inner">
+                            <span class="ue-pin pin-obj"></span> Target: Portfolio Instance
                         </div>
-                        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight">
-                            Ben Chittenden
-                        </h1>
-                        <p class="text-xl text-neutral-300 font-light">
-                            Game Designer, Technical Programmer & VR Developer specializing in advanced engine systems, robust Blueprints, and immersive gameplay mechanics.
+                        
+                        <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight">Ben Chittenden</h1>
+                        <h2 class="text-2xl text-[#00A8FF] font-semibold tracking-wide">Game Design Portfolio</h2>
+                        
+                        <p class="text-lg text-gray-300 max-w-2xl leading-relaxed border-l-4 border-gray-600 pl-4">
+                            Game Designer and Technical Programmer specializing in PCVR, multiplayer mechanics, and complex engine systems. 
                         </p>
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <button onclick="switchTab('projects')" class="bg-green-600 hover:bg-green-500 text-black font-bold px-6 py-3 rounded flex items-center space-x-2 transition shadow-lg shadow-green-900/30 cursor-pointer">
-                                <span>Execute: View Projects</span>
-                                <i class="fa-solid fa-arrow-right text-sm"></i>
+                        
+                        <div class="pt-6 flex flex-wrap gap-4">
+                            <button onclick="switchTab('projects')" class="bg-[#285096] hover:bg-[#3262B5] text-white border border-[#4070C5] font-bold px-6 py-3 rounded shadow-[0_0_15px_rgba(40,80,150,0.5)] transition flex items-center space-x-2">
+                                <span class="ue-pin pin-exec bg-white"></span>
+                                <span>Execute My Games</span>
                             </button>
-                            <button onclick="switchTab('contact')" class="bg-neutral-800 hover:bg-neutral-700 text-white font-semibold px-6 py-3 rounded border border-neutral-700 transition cursor-pointer">
-                                Get In Touch
-                            </button>
-                        </div>
-                    </div>
-                    <div class="relative bg-neutral-900/80 rounded-xl p-6 border border-neutral-800">
-                        <div class="absolute -top-3 left-6 bg-neutral-800 px-3 py-0.5 rounded text-xs font-mono text-green-400 border border-neutral-700">Core_Stack.uasset</div>
-                        <div class="space-y-4 pt-2 font-mono text-sm">
-                            <div class="flex justify-between items-center bg-neutral-950 p-3 rounded border border-neutral-800">
-                                <span class="text-neutral-400">Primary Engine:</span>
-                                <span class="text-green-400 font-bold">Unreal Engine (4 & 5)</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-neutral-950 p-3 rounded border border-neutral-800">
-                                <span class="text-neutral-400">Languages:</span>
-                                <span class="text-white font-bold">C++, Blueprints, C#</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-neutral-950 p-3 rounded border border-neutral-800">
-                                <span class="text-neutral-400">Specialization:</span>
-                                <span class="text-white font-bold">PCVR, AI Systems, Mechanics</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-neutral-950 p-3 rounded border border-neutral-800">
-                                <span class="text-neutral-400">Experience:</span>
-                                <span class="text-white font-bold">10+ Years Development</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PROJECTS TAB (Loaded with exact Wix content) -->
-        <section id="tab-projects" class="tab-content hidden space-y-10">
-            <div class="border-b border-neutral-800 pb-5">
-                <h2 class="text-3xl font-bold text-white tracking-tight flex items-center space-x-3">
-                    <span class="ue-pin"></span>
-                    <span>My Games & Projects</span>
-                </h2>
-                <p class="text-neutral-400 mt-2">Deployed builds, local multiplayer combat, and PCVR environments engineered in Unreal Engine.</p>
+        <!-- PROJECTS TAB -->
+        <section id="tab-projects" class="tab-content hidden space-y-12">
+            
+            <!-- Commment Box Style Header -->
+            <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.1)] rounded p-4 mb-8 relative">
+                <div class="absolute -top-3 left-4 bg-[#1A1C1E] px-2 text-gray-400 font-mono text-sm">My Games Group</div>
+                <p class="text-gray-300 pt-2 text-lg">A showcase of systems, maps, and logic built across multiple engines.</p>
             </div>
 
-            <div class="grid grid-cols-1 gap-8">
-                <!-- Project 1: Cars... But Violent! -->
-                <div class="ue-node overflow-hidden">
-                    <div class="ue-header px-6 py-3 flex items-center justify-between">
-                        <span class="font-bold text-white text-sm">Project Node: Cars... But Violent!</span>
-                        <span class="text-xs text-green-300 font-mono">Unreal Engine 5</span>
+            <!-- Project 1: Cars But Violent -->
+            <div class="ue-node">
+                <div class="ue-header-func px-4 py-2 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="ue-pin pin-exec"></span>
+                        <span class="font-bold text-white text-lg">Call: Cars... But Violent!</span>
                     </div>
-                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                        <div class="lg:col-span-2 space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <span class="bg-green-500/10 text-green-400 border border-green-500/20 text-xs px-2.5 py-1 rounded font-mono">Solo Developer</span>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white">Cars... But Violent!</h3>
-                            <p class="text-neutral-300">
-                                Cars... But Violent is a 4-player local split-screen vehicular combat game. As the sole developer, I built all of the systems, designed all of the maps, and modelled/animated every asset. The game also contains a branching AI developed by myself as well.
-                            </p>
-                            <div class="pt-2 flex flex-wrap gap-2">
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">Vehicle Physics</span>
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">Split-Screen UI</span>
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">Branching AI</span>
-                            </div>
+                    <span class="text-[#00A8FF] font-mono text-sm font-bold bg-[#111] px-2 py-0.5 rounded">Unreal Engine 5</span>
+                </div>
+                <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-8">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-center text-sm font-mono text-gray-400 bg-[#111] px-3 py-1 rounded border border-[#2D3035] w-max">
+                            <span class="ue-pin pin-int"></span> Role: Solo Developer
                         </div>
-                        <div class="bg-neutral-950 p-4 rounded-lg border border-neutral-800 text-center">
-                            <div class="aspect-video bg-neutral-900 rounded overflow-hidden mb-4 relative flex items-center justify-center">
-                                <img src="https://i.ytimg.com/vi/VmMPbWoCz8w/maxresdefault.jpg" alt="Cars But Violent" class="w-full h-full object-cover">
-                            </div>
-                            <a href="https://www.youtube.com/channel/UCVwJil5ftZr66MN5z5o7P4A" target="_blank" class="inline-block w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 rounded transition text-center text-sm">
-                                Watch Footage
+                        <p class="text-gray-300 leading-relaxed">
+                            Cars... But Violent is a 4-player local split-screen vehicular combat game. As the sole developer, I built all of the systems, designed all of the maps, and modelled/animated every asset. The game also contains a branching AI developed by myself as well.
+                        </p>
+                        <div class="pt-4">
+                            <a href="https://www.youtube.com/watch?v=VmMPbWoCz8w" target="_blank" class="inline-flex items-center space-x-2 text-white hover:text-red-500 font-semibold bg-[#222] px-4 py-2 rounded transition">
+                                <i class="fa-brands fa-youtube"></i>
+                                <span>Watch Trailer</span>
                             </a>
                         </div>
+                    </div>
+                    <div class="w-full lg:w-1/3 aspect-video bg-[#000] border-2 border-[#2D3035] rounded overflow-hidden shadow-lg relative group">
+                        <img src="https://i.ytimg.com/vi/VmMPbWoCz8w/maxresdefault.jpg" alt="Cars But Violent" class="w-full h-full object-cover">
                     </div>
                 </div>
+            </div>
 
-                <!-- Project 2: Mechanize (PCVR) -->
-                <div class="ue-node overflow-hidden">
-                    <div class="ue-header px-6 py-3 flex items-center justify-between">
-                        <span class="font-bold text-white text-sm">Project Node: Mechanize (PCVR)</span>
-                        <span class="text-xs text-green-300 font-mono">Unreal Engine 4</span>
+            <!-- Project 2: Mechanize -->
+            <div class="ue-node">
+                <div class="ue-header-func px-4 py-2 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="ue-pin pin-exec"></span>
+                        <span class="font-bold text-white text-lg">Call: Mechanize (PCVR)</span>
                     </div>
-                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                        <div class="lg:col-span-2 space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <span class="bg-green-500/10 text-green-400 border border-green-500/20 text-xs px-2.5 py-1 rounded font-mono">Technical Designer / Lead Programmer</span>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white">Mechanize (PCVR)</h3>
-                            <p class="text-neutral-300">
-                                Mechanize is a VR Destruction-based game akin to the 1980s classic Rampage where the player is tasked with destroying a city in the most destructive way possible using both the environment and enemies to gain as many points as possible.
-                            </p>
-                            <div class="pt-2 flex flex-wrap gap-2">
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">PCVR Interaction</span>
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">Destruction Physics</span>
-                            </div>
+                    <span class="text-[#00A8FF] font-mono text-sm font-bold bg-[#111] px-2 py-0.5 rounded">Unreal Engine 4</span>
+                </div>
+                <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-8">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-center text-sm font-mono text-gray-400 bg-[#111] px-3 py-1 rounded border border-[#2D3035] w-max">
+                            <span class="ue-pin pin-int"></span> Role: Technical Designer / Lead Programmer
                         </div>
-                        <div class="bg-neutral-950 p-4 rounded-lg border border-neutral-800 text-center">
-                            <div class="aspect-video bg-neutral-900 rounded overflow-hidden mb-4 relative flex items-center justify-center">
-                                <img src="https://i.ytimg.com/vi/rAUoZ0uItVg/maxresdefault.jpg" alt="Mechanize PCVR" class="w-full h-full object-cover">
-                            </div>
-                            <a href="https://benchittenden.itch.io/mechanize" target="_blank" class="inline-block w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 rounded transition text-center text-sm">
-                                Play on Itch.io
+                        <p class="text-gray-300 leading-relaxed">
+                            Mechanize is a VR Destruction-based game akin to the 1980s classic Rampage where the player is tasked with destroying a city in the most destructive way possible using both the environment and enemies to gain as many points as possible.
+                        </p>
+                        <div class="pt-4 flex space-x-3">
+                            <a href="https://benchittenden.itch.io/mechanize" target="_blank" class="inline-flex items-center space-x-2 text-white hover:text-[#FA5C5C] font-semibold bg-[#222] px-4 py-2 rounded transition border border-[#2D3035]">
+                                <i class="fa-brands fa-itch-io"></i>
+                                <span>Learn More</span>
                             </a>
                         </div>
+                    </div>
+                    <div class="w-full lg:w-1/3 aspect-video bg-[#000] border-2 border-[#2D3035] rounded overflow-hidden shadow-lg">
+                        <img src="https://i.ytimg.com/vi/rAUoZ0uItVg/maxresdefault.jpg" alt="Mechanize PCVR" class="w-full h-full object-cover">
                     </div>
                 </div>
+            </div>
 
-                <!-- Project 3: Elementalists -->
-                <div class="ue-node overflow-hidden">
-                    <div class="ue-header px-6 py-3 flex items-center justify-between">
-                        <span class="font-bold text-white text-sm">Project Node: Elementalists</span>
-                        <span class="text-xs text-green-300 font-mono">GameMaker Studio 2</span>
+            <!-- Project 3: Elementalists -->
+            <div class="ue-node">
+                <div class="ue-header-func px-4 py-2 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="ue-pin pin-exec"></span>
+                        <span class="font-bold text-white text-lg">Call: Elementalists</span>
                     </div>
-                    <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                        <div class="lg:col-span-2 space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <span class="bg-green-500/10 text-green-400 border border-green-500/20 text-xs px-2.5 py-1 rounded font-mono">Technical Designer / Lead Programmer</span>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white">Elementalists</h3>
-                            <p class="text-neutral-300">
-                                Defend the Elementalists' tower from an onslaught of incoming enemies using a variety of abilities. Test your strategies to see what the highest wave you can reach is.
-                            </p>
-                            <div class="pt-2 flex flex-wrap gap-2">
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">Tower Defense</span>
-                                <span class="bg-neutral-800 text-neutral-300 text-xs px-3 py-1 rounded border border-neutral-700">Wave Management</span>
-                            </div>
+                    <span class="text-gray-300 font-mono text-sm font-bold bg-[#111] px-2 py-0.5 rounded">GameMaker Studio 2</span>
+                </div>
+                <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-8">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-center text-sm font-mono text-gray-400 bg-[#111] px-3 py-1 rounded border border-[#2D3035] w-max">
+                            <span class="ue-pin pin-int"></span> Role: Technical Designer / Lead Programmer
                         </div>
-                        <div class="bg-neutral-950 p-4 rounded-lg border border-neutral-800 text-center">
-                            <div class="aspect-video bg-neutral-900 rounded overflow-hidden mb-4 relative flex items-center justify-center">
-                                <img src="https://static.wixstatic.com/media/b68f84_46acf71e3bf1429d9ba5e20a91762533~mv2.png/v1/fill/w_250,h_140,al_c,q_95,enc_auto/b68f84_46acf71e3bf1429d9ba5e20a91762533~mv2.png" alt="Elementalists" class="w-full h-full object-cover">
-                            </div>
-                            <a href="https://benchittenden.itch.io/elementalists" target="_blank" class="inline-block w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 rounded transition text-center text-sm">
-                                Play on Itch.io
+                        <p class="text-gray-300 leading-relaxed">
+                            In this game, you have one goal. Defend the Elementalists' tower from an onslaught of incoming enemies using a variety of abilities. What's the highest wave you can get to?
+                        </p>
+                        <div class="pt-4 flex space-x-3">
+                            <a href="https://benchittenden.itch.io/elementalists" target="_blank" class="inline-flex items-center space-x-2 text-white hover:text-[#FA5C5C] font-semibold bg-[#222] px-4 py-2 rounded transition border border-[#2D3035]">
+                                <i class="fa-brands fa-itch-io"></i>
+                                <span>Learn More</span>
                             </a>
                         </div>
+                    </div>
+                    <div class="w-full lg:w-1/3 aspect-video bg-[#000] border-2 border-[#2D3035] rounded overflow-hidden shadow-lg">
+                        <img src="https://static.wixstatic.com/media/b68f84_46acf71e3bf1429d9ba5e20a91762533~mv2.png/v1/fill/w_400,h_225,al_c,q_90/b68f84_46acf71e3bf1429d9ba5e20a91762533~mv2.png" alt="Elementalists" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- EXPERIENCE TAB -->
-        <section id="tab-experience" class="tab-content hidden space-y-10">
-            <div class="border-b border-neutral-800 pb-5">
-                <h2 class="text-3xl font-bold text-white tracking-tight flex items-center space-x-3">
-                    <span class="ue-pin"></span>
-                    <span>Professional Track Record</span>
-                </h2>
-                <p class="text-neutral-400 mt-2">Academic foundations and technical leadership roles.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="ue-node p-6 space-y-4">
-                    <div class="flex items-center justify-between text-xs font-mono text-green-400">
-                        <span>Canterbury Christ Church University</span>
-                        <span>Higher Education</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-white">Game Design & Programming Lead</h3>
-                    <p class="text-neutral-300 text-sm">
-                        Spearheaded multiple student-led and collaborative game development pipelines, overseeing architecture design, blueprint standards, and technical optimization.
-                    </p>
+        <section id="tab-experience" class="tab-content hidden">
+            <div class="ue-node max-w-4xl mx-auto">
+                <div class="ue-header-macro px-4 py-2 flex items-center">
+                    <span class="ue-pin pin-exec"></span>
+                    <span class="font-bold text-white text-lg">Macro: Career Timeline</span>
                 </div>
-                <div class="ue-node p-6 space-y-4">
-                    <div class="flex items-center justify-between text-xs font-mono text-green-400">
-                        <span>Independent Development</span>
-                        <span>2016 - Present</span>
+                <div class="p-8 space-y-6">
+                    <div class="border-l-2 border-[#2D3035] pl-6 space-y-8 py-4 relative">
+                        <div class="relative">
+                            <span class="absolute -left-[35px] top-1 w-4 h-4 bg-[#00A8FF] rounded-full border-4 border-[#151719]"></span>
+                            <h3 class="text-xl font-bold text-white">Canterbury Christ Church University</h3>
+                            <p class="text-sm font-mono text-[#00A8FF] mb-2">Higher Education Background</p>
+                            <p class="text-gray-400">Game Design and Programming fundamentals, project leadership, and collaborative development in academic environments.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[35px] top-1 w-4 h-4 bg-[#1FE5A0] rounded-full border-4 border-[#151719]"></span>
+                            <h3 class="text-xl font-bold text-white">Independent Development</h3>
+                            <p class="text-sm font-mono text-[#1FE5A0] mb-2">2016 - Present</p>
+                            <p class="text-gray-400">Led system architecture and logic design across numerous solo and team-based titles, specializing in Unreal Engine frameworks, AI routing, and VR interaction modules.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white">Solo & Team Developer</h3>
-                    <p class="text-neutral-300 text-sm">
-                        Engineered custom VR interactions, vehicular combat logic, and modular game components from conception through publishing.
-                    </p>
                 </div>
             </div>
         </section>
 
         <!-- ABOUT TAB -->
-        <section id="tab-about" class="tab-content hidden space-y-10">
-            <div class="border-b border-neutral-800 pb-5">
-                <h2 class="text-3xl font-bold text-white tracking-tight flex items-center space-x-3">
-                    <span class="ue-pin"></span>
-                    <span>About Ben Chittenden</span>
-                </h2>
-                <p class="text-neutral-400 mt-2">Detailed overview of background and development philosophy.</p>
-            </div>
-
-            <div class="ue-node p-8 space-y-6">
-                <p class="text-neutral-300 leading-relaxed">
-                    I am a passionate games programmer and creative technologist with over a decade of deep, hands-on experience using Unreal Engine. My expertise spans complex systemic design, technical art pipeline integrations, and high-performance virtual reality development.
-                </p>
-                <p class="text-neutral-300 leading-relaxed">
-                    Whether I am acting as a solo developer building local multiplayer physics frameworks from scratch or leading multidisciplinary teams on PCVR titles, my focus remains firmly on clean code architecture, engaging player feedback loops, and robust performance optimization.
-                </p>
-            </div>
-        </section>
-
-        <!-- CONTACT TAB -->
-        <section id="tab-contact" class="tab-content hidden space-y-10">
-            <div class="border-b border-neutral-800 pb-5">
-                <h2 class="text-3xl font-bold text-white tracking-tight flex items-center space-x-3">
-                    <span class="ue-pin"></span>
-                    <span>Initialize Connection</span>
-                </h2>
-                <p class="text-neutral-400 mt-2">Get in touch for collaborative opportunities or project inquiries.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="ue-node p-8 space-y-6">
-                    <h3 class="text-xl font-bold text-white">Direct Channels</h3>
-                    <div class="space-y-4 text-sm">
-                        <div class="flex items-center space-x-3 text-neutral-300">
-                            <i class="fa-solid fa-envelope text-green-400 w-5"></i>
-                            <span>Available via LinkedIn & Professional socials</span>
+        <section id="tab-about" class="tab-content hidden">
+            <div class="ue-node max-w-4xl mx-auto">
+                <div class="ue-header-macro px-4 py-2 flex items-center">
+                    <span class="ue-pin pin-exec"></span>
+                    <span class="font-bold text-white text-lg">Macro: Get Data (About Me)</span>
+                </div>
+                <div class="p-8 space-y-6 text-gray-300 leading-relaxed font-medium">
+                    <div class="flex items-center space-x-3 mb-6 bg-[#111] p-4 rounded border border-[#2D3035]">
+                        <div class="w-16 h-16 bg-gray-800 rounded flex items-center justify-center border border-gray-600">
+                            <i class="fa-solid fa-user text-3xl text-gray-500"></i>
                         </div>
-                        <div class="flex items-center space-x-3 text-neutral-300">
-                            <i class="fa-brands fa-linkedin text-green-400 w-5"></i>
-                            <a href="https://www.linkedin.com/in/ben-chittenden-052513127/" target="_blank" class="hover:text-green-400 underline">Connect on LinkedIn</a>
-                        </div>
-                        <div class="flex items-center space-x-3 text-neutral-300">
-                            <i class="fa-brands fa-x-twitter text-green-400 w-5"></i>
-                            <a href="https://twitter.com/ABritishGameDev" target="_blank" class="hover:text-green-400 underline">Follow on Twitter</a>
+                        <div>
+                            <h3 class="text-xl text-white font-bold">Ben Chittenden</h3>
+                            <p class="text-sm text-[#00A8FF] font-mono">Game Design & Programming</p>
                         </div>
                     </div>
-                </div>
-                <div class="ue-node p-8">
-                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('Message simulation sent successfully!');">
-                        <div>
-                            <label class="block text-xs font-mono text-neutral-400 mb-1">YOUR NAME</label>
-                            <input type="text" required class="w-full bg-neutral-900 border border-neutral-700 rounded px-4 py-2 text-white focus:outline-none focus:border-green-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-mono text-neutral-400 mb-1">EMAIL ADDRESS</label>
-                            <input type="email" required class="w-full bg-neutral-900 border border-neutral-700 rounded px-4 py-2 text-white focus:outline-none focus:border-green-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-mono text-neutral-400 mb-1">MESSAGE</label>
-                            <textarea rows="4" required class="w-full bg-neutral-900 border border-neutral-700 rounded px-4 py-2 text-white focus:outline-none focus:border-green-500"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 rounded transition cursor-pointer">
-                            Transmit Message
-                        </button>
-                    </form>
+                    
+                    <p>
+                        I am a dedicated Games Programmer and Technical Designer focused on creating robust, highly interactive experiences. My core strength lies in translating complex game design concepts into efficient, scalable systems within Unreal Engine.
+                    </p>
+                    <p>
+                        With extensive experience spanning local multiplayer AI to PCVR interaction design, I excel in environments that require both creative problem solving and rigorous technical execution. I am passionate about clean Blueprint architecture, C++ integration, and building intuitive tools that empower the entire development team.
+                    </p>
                 </div>
             </div>
         </section>
@@ -352,31 +314,52 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#141414] border-t border-neutral-800 py-6 mt-12 text-center text-xs text-neutral-500">
-        <p>© 2026 Ben Chittenden. Powered by Unreal Engine Blueprint Architecture.</p>
+    <footer class="bg-[#111111] border-t border-[#2D3035] py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-500 font-mono text-sm">© 2026 by Ben Chittenden. Proudly created with UE5-inspired architecture.</p>
+        </div>
     </footer>
 
-    <!-- Client-side tab router script -->
+    <!-- Tab Routing & Mobile Logic -->
     <script>
         function switchTab(tabId) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(el => {
                 el.classList.add('hidden');
             });
-            // Show target tab
+            // Show target
             const target = document.getElementById('tab-' + tabId);
             if(target) {
                 target.classList.remove('hidden');
             }
-            // Update button styles
-            document.querySelectorAll('.nav-btn').forEach(btn => {
+            
+            // Update desktop buttons
+            document.querySelectorAll('.nav-btn-desk').forEach(btn => {
                 if(btn.getAttribute('data-target') === tabId) {
-                    btn.className = "nav-btn px-4 py-2 rounded text-sm font-medium transition text-green-400 bg-neutral-800/60 border border-green-500/30";
+                    btn.className = "nav-btn-desk px-4 py-2 rounded font-medium transition text-[#00A8FF] bg-[#222] border border-[#00A8FF]/50 hover:bg-[#333]";
                 } else {
-                    btn.className = "nav-btn px-4 py-2 rounded text-sm font-medium transition text-neutral-300 hover:text-white hover:bg-neutral-800";
+                    btn.className = "nav-btn-desk px-4 py-2 rounded font-medium transition text-gray-300 hover:text-white hover:bg-[#222]";
                 }
             });
+            
+            // Update mobile buttons
+            document.querySelectorAll('.nav-btn-mob').forEach(btn => {
+                if(btn.getAttribute('data-target') === tabId) {
+                    btn.className = "nav-btn-mob block w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#00A8FF] bg-[#222]";
+                } else {
+                    btn.className = "nav-btn-mob block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-[#222]";
+                }
+            });
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Scroll to top smoothly
             window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         }
     </script>
 </body>
